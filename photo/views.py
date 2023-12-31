@@ -1,6 +1,6 @@
 from django.shortcuts import render
-# django.views.genericからTemplateViewをインポート
-from django.views.generic import TemplateView
+# django.views.genericからTemplateView、ListViewをインポート
+from django.views.generic import TemplateView, ListView
 # django.views.genericからCreateViewをインポート
 from django.views.generic import CreateView
 # django.urlsからreverse_lazyをインポート
@@ -11,12 +11,19 @@ from .forms import PhotoPostForm
 from django.utils.decorators import method_decorator
 # login_requiredをインポート
 from django.contrib.auth.decorators import login_required
+# modelsモジュールからモデルPhotoPostをインポート
+from .models import PhotoPost
 
-class IndexView(TemplateView):
+class IndexView(ListView):
     '''トップページのビュー
     '''
     # index.htmlをレンダリングする
     template_name ='index.html'
+    # モデルBlogPostのオブジェクトにorder_by()を適用して
+    # 投稿日時の降順で並べ替える
+    queryset = PhotoPost.objects.order_by('-posted_at')
+    # 1ページに表示するレコードの件数
+    paginate_by = 9
 
 # デコレーターにより、CreatePhotoViewへのアクセスはログインユーザーに限定される
 # ログイン状態でなければsettings.pyのLOGIN_URLにリダイレクトされる

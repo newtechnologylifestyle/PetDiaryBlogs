@@ -40,4 +40,8 @@ urlpatterns = [
          views.DetailView.as_view(),
          name = 'photo_detail'
          ),
+    
+    # マイページ
+    # mypage/へのアクセスはMypageViewを実行
+    path('mypage/', views.MypageView.as_view(), name = 'mypage'),
 ]
